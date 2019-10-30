@@ -2,7 +2,7 @@
 
 ## Installation
 
-Firstly, connect to the NAS via ssh;
+Assuming you have your Synology NAS up and running, connect to the NAS via ssh;
 
 `ssh wvella@10.0.10.100`
 
@@ -10,7 +10,20 @@ Once logged in, start a new container in Docker;
 
 `sudo docker run --restart always -d --name="nas-south-homeassistant1" -v /volume3/docker/homeassistant/config:/config --device=/dev/zwave -e TZ=Australia/Melbourne --net=host homeassistant/home-assistant:stable`
 
-Note: Make sure you have configured a local folder on the NAS for the configuration files. This will be mapped in the container so the configuration files are persisted.
+The parameters mean;
+
+- `sudo` Run the command in privledged mode
+- `docker run` Run a command in a new container
+-  `--restart` Always restart after the NAS starts up
+- `-d` Run container in background and print container ID
+- `--name` Friendly name for the container
+- `-v` Mount a volume in the container to a folder on the NAS
+- `--device` Mount the Z-Wave USB stick in the container
+- `-e` Set the TimeZone to you local time sonze
+- `--net` Set the network of the container to the same network as the Docker host. In this case, our Synology NAS.
+
+
+>**NOTE**: Make sure the local folder on the NAS is created to store the configuration files. This folder will be mapped in the container so the configuration files are persisted after a restart..
 
 Once the container has been created, you can view if it's running;
 
