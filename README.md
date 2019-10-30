@@ -75,7 +75,7 @@ Some files will need to be added to the Home Assistant configuration, so to conn
 
 Go to the following [page](https://www.home-assistant.io/docs/z-wave/adding/) to learn how to add and remove devices. One the devices are added, it's time to reanme them to something nicer. One nice feature in adding the Z-Wave device is that it can be done *in-place* without having to remove the USB stick. Just start the *Add node* option in Home Assistant and click the button on the device. If the Mesh is working, the device should be able to be added in. Always remember to also *Heal* the network so the Mesh can rebuild and optimise the path.
 
-A word of warning. Z-Wave works on a mesh network, that is not line of sight (unlike Wifi). This means, the more Z-Wave devices that are added, the stronger the network becomes. On the converse, having only a few Z-Wave devices will cause a lot of dead nodes, which I something I wrestled with - until I figured this out.
+> **A WORD OF WARNING**: Z-Wave works on a mesh network, that is not line of sight (unlike Wifi). This means, the more Z-Wave devices that are added, the stronger the network becomes. On the converse, having only a few Z-Wave devices will cause a lot of dead nodes, which I something I wrestled with - until I figured this out.
 
 ### Renaming the Devices
 
@@ -84,8 +84,9 @@ After a few attempts in trying to get the Z-Wave devices added, I ended up with 
 1. Open the `Home Assistant\configs\.storage\core.device_registry` file in a good file editor (like Sublime Text or Visual Studio code).
 2. Open the `Home Assistant\configs\.storage\core.entity_registry` file in a good file editor (like Sublime Text or Visual Studio code).
 
-Note: Files in the .storage directory. If you want to see hidden files in macOS press `Command + Shift + .` and the files will appear. Repeat this sequence to hide the hidden files.
-Note: ALWAYS create a backup of these files before you edit them. One typo may invalidate the file.
+> **Note**: Files in the .storage directory. If you want to see hidden files in macOS press `Command + Shift + .` and the files will appear. Repeat this sequence to hide the hidden files.
+
+> **Note**: ALWAYS create a backup of these files before you edit them. One typo may invalidate the file.
 
 3. In the `core.device_registry` file, find the device you want to delete. An example is below;
 
