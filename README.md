@@ -92,6 +92,33 @@ Go to the following [page](https://www.home-assistant.io/docs/z-wave/adding/) to
 
 ### Renaming the Devices
 
+Out of the box, Home Assistant will give the Node, the Device & the Entity a default name. I like to give my devices a more friendly name, so here is how I have renamed my assets.
+
+#### Node Names
+
+In the Z-Wave Node Management page, select the node you want to rename and select `Node Information`. Rename this node (by clicking on the Gear) to your own name. Remember, this is naming the *physical* Z-Wave node, not the devices the node exposes (some switches expose 2 devices, such as the AEOTEC Dual Nano Switch).
+
+I like to give my Nodes the following naming pattern;
+
+`Name Override`: [Area] - [Location] - [Device Type]. For example; `Backyard - Side Pathway - Dual Nano Switch`
+`Entity ID`: [domain]_[location]_[devicetype]. For example; `zwave.backyard_sidepathway_dualnanoswitch`
+
+>**NOTE**: Note the lowercase and no spaces in the Entity ID. The domain is also fixed.
+
+#### Device Names
+
+In *Configuration* -> *Devices* find the device you want to rename. Rename this device (by clicking on the Gear) to your own name. 
+
+I like to give my Devices the following naming pattern;
+
+`Name Override`: [[Location] - [Device Type]. For example; `Backyard - Side Pathway - Dual Nano Switch`
+`Entity ID`: [domain]_[location]_[devicetype]. For example; `zwave.backyard_sidepathway_dualnanoswitch`
+
+>**NOTE**: Note the lowercase and no spaces in the Entity ID. The domain is also fixed.
+
+
+### Cleaning up old Devices and Entities
+
 After a few attempts in trying to get the Z-Wave devices added, I ended up with a whole bunch of devices and entities hanging around in the database which caused clutter. These can be cleaned up by editing a few JSON files. The process I followed is;
 
 1. Open the `Home Assistant\configs\.storage\core.device_registry` file in a good file editor (like Sublime Text or Visual Studio code).
@@ -127,3 +154,4 @@ After a few attempts in trying to get the Z-Wave devices added, I ended up with 
 4. The whole entry can be removed. Remember to preserve the structure of the JSON file.
 5. Copy the value from `"via_device_id"` and find this id in the `core.entity_registry` file. There may be multiple entity entries. These can also be removed.
 6. Save both files and restart Home Assistant.
+
