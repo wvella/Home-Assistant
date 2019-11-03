@@ -101,7 +101,7 @@ In the Z-Wave Node Management page, select the node you want to rename and selec
 I like to give my Nodes the following naming pattern;
 
 `Name Override`: [Area] - [Location] - [Device Type]. For example; `Backyard - Side Pathway - Dual Nano Switch`
-`Entity ID`: [domain]_[location]_[devicetype]. For example; `zwave.backyard_sidepathway_dualnanoswitch`
+`Entity ID`: [domain].[location]_[devicetype]. For example; `zwave.backyard_sidepathway_dualnanoswitch`
 
 >**NOTE**: Note the lowercase and no spaces in the Entity ID. The domain is also fixed.
 
@@ -109,12 +109,15 @@ I like to give my Nodes the following naming pattern;
 
 In *Configuration* -> *Devices* find the device you want to rename. Rename this device (by clicking on the Gear) to your own name. 
 
+>**NOTE**: Most of my devices are Z-Wave Dual Nano Switches which are seen as 'two seperate switches'. Intersestingly though, in this Devices page, a total of three (3) devices appear. I can only assume one device is the 'master switch' and the other two devices, each individual switch.
+
 I like to give my Devices the following naming pattern;
 
-`Name Override`: [[Location] - [Device Type]. For example; `Backyard - Side Pathway - Dual Nano Switch`
-`Entity ID`: [domain]_[location]_[devicetype]. For example; `zwave.backyard_sidepathway_dualnanoswitch`
+`Name Override`: [[Location] - [Device Type] [Sensor]. For example; `Side Pathway - Dual Nano Switch Heat`
+`Location`: [Location of device]
+`Entity ID`: [domain].[devicetype] [Sensor]. For example; `sensor.sidepathway_dualnanoswitch_heat`
 
->**NOTE**: Note the lowercase and no spaces in the Entity ID. The domain is also fixed.
+>**NOTE**: Note the lowercase and no spaces in the Entity ID. Locations are defined in the Area Registry. The domain is also fixed.
 
 
 ### Cleaning up old Devices and Entities
