@@ -29,6 +29,10 @@ Once the container has been created, you can view if it's running;
 
 `sudo docker ps`
 
+To connect into the container and open up a `bash` shell;
+
+`sudo docker exec -it <container name> /bin/bash`
+
 To view the Home Assistant web page, access the following link. 
 [Home Assistant - Lovelace UI](http://10.0.10.100:8123)
 
@@ -101,7 +105,7 @@ In the Z-Wave Node Management page, select the node you want to rename and selec
 I like to give my Nodes the following naming pattern;
 
 `Name Override`: [Area] - [Location] - [Device Type]. For example; `Backyard - Side Pathway - Dual Nano Switch`
-`Entity ID`: [domain].[location]_[devicetype]. For example; `zwave.backyard_sidepathway_dualnanoswitch`
+`Entity ID`: [domain].[location] _ [devicetype]. For example; `zwave.backyard_sidepathway_dualnanoswitch`
 
 >**NOTE**: Note the lowercase and no spaces in the Entity ID. The domain is also fixed.
 
@@ -113,12 +117,20 @@ In *Configuration* -> *Devices* find the device you want to rename. Rename this 
 
 I like to give my Devices the following naming pattern;
 
-`Name Override`: [[Location] - [Device Type] [Sensor]. For example; `Side Pathway - Dual Nano Switch Heat`
+`Name Override`: [Friendly Device Name]. For example; `Pathway Lights`
+`Area`: [Area of device]
+
+#### Entitiy Names
+
+I like to give my Entites the following naming pattern;
+
+`Name Override`: [[Device Type] [Sensor]]. For example; `Dual Nano Switch Heat`
 `Location`: [Location of device]
-`Entity ID`: [domain].[devicetype] [Sensor]. For example; `sensor.sidepathway_dualnanoswitch_heat`
+`Entity ID`: [domain].[location]_[devicetype]_[switchtype]_[Sensor]. For example; `sensor.sidepathway_dualnanoswitch_lights_heat`
 
 >**NOTE**: Note the lowercase and no spaces in the Entity ID. Locations are defined in the Area Registry. The domain is also fixed.
 
+>**NOTE**: I also like to remove devices that are connected, but not used. This is the case on Dual Nano Switches where I am only using 1 of the 2 available switches.
 
 ### Cleaning up old Devices and Entities
 
@@ -155,6 +167,9 @@ After a few attempts in trying to get the Z-Wave devices added, I ended up with 
             },`
 						
 4. The whole entry can be removed. Remember to preserve the structure of the JSON file.
-5. Copy the value from `"via_device_id"` and find this id in the `core.entity_registry` file. There may be multiple entity entries. These can also be removed.
+5. Copy the value from `"id"` and find this id in the `core.entity_registry` file. There may be multiple entity entries. These can also be removed.
 6. Save both files and restart Home Assistant.
 
+## Creating device groups
+
+## TUrning off the Garage Alarm Sound
