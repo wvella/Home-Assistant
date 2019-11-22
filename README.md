@@ -1,8 +1,16 @@
 # These are my notes for setting up *Home Assistant* on my Synology NAS in Docker from scratch.
 
+## Why am I documenting this?
+
+I've started to play around with Z-Wave and Smart Home recently, and I am learning a bucket load.  I have a strong technical background, and work in Integration and APIs in my day job, but I hope to make setting up a Smart Home accessible to as many people as possible.
+
+There is a wealth of knowledge out there and the community is amazing. The least I could do is contribute back by sharing my experiences all the way from the start.
+
+I'm keen for feedback so please feel free to fork this, contribute and share experiences!
+
 ## Installation
 
-Assuming you have your Synology NAS up and running, connect to the NAS via ssh;
+Here we go! Assuming you have your Synology NAS up and running, connect to the NAS via ssh;
 
 `ssh wvella@10.0.10.100`
 
@@ -172,4 +180,14 @@ After a few attempts in trying to get the Z-Wave devices added, I ended up with 
 
 ## Creating device groups
 
-## TUrning off the Garage Alarm Sound
+## Turning off the Garage Alarm Sound
+
+The default behavior of the *Aeotec Garage Door Controller* is to ring a loud alarm for 5 seconds before the garage door is opened and closed. First thing I wanted to do is turn this off!
+
+I found this [great guide](https://aeotec.freshdesk.com/support/solutions/articles/6000131922-disable-alarm-sound-in-the-garage-door-controller) but in summary;
+
+1. Change Parameter 32 (Startup ringtone) to 0
+2. Change Parameter 37 (Configure alarm mode for when the door is opening) to 167837952
+3. Change Parameter 38 (Configure the alarm mode when the garage door is closing) to 83951872
+4. Change Parameter 39 (Configure alarm mode when the garage door is in unknown state) to117506304
+5. Change Parameter 40 (Configure the alarm mode when the garage door is in closed position) to 16843008
