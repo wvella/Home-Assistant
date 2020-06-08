@@ -53,7 +53,7 @@ For basic configuration (great starting point), refer to the following link.
 
 By default, the Z-Wave USB stick will show up as either /dev/ttyACM0 or /dev/ttyACM1 and can change each time the NAS is restarted, or the USB stick is removed and plugged back in. To persist the USB stick to an 'alias' name, we can use `udev` as below;
 
-1. Using `cat /proc/bus/usb/device` find the *Vendor* and *Product* ID.
+1. Using `cat /proc/bus/usb/device` find the *Vendor* and *Product* ID of the AEOTEC Z-Wave USB Stick. It will largely be the same across the Gen 5 fleet of USB sticks.
 2. In `/lib/udev/rules.d` create a new file, such as `50-usb-zwave.rules`. 
 3. Add the following content;
 `SUBSYSTEM=="tty", ATTRS{idVendor}=="0658", ATTRS{idProduct}=="0200", SYMLINK+="zwave"`
