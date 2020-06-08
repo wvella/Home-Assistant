@@ -49,6 +49,22 @@ For basic configuration (great starting point), refer to the following link.
 
 ## Post Installation
 
+### Mounting the Z-Wave USB Stick (with persistence)
+
+By default, the Z-Wave USB stick will show up as either /dev/ttyACM0 or /dev/ttyACM1 and can change each time the NAS is restarted, or the USB stick is removed and plugged back in. To persist the USB stick to an 'alias' name, we can use `udev` as below;
+
+1. Using `cat /proc/bus/usb/device` find the *Vendor* and *Product* ID.
+2. In `/lib/udev/rules.d` create a new file, such as `50-usb-zwave.rules`. 
+3. Add the following content;
+`SUBSYSTEM=="tty", ATTRS{idVendor}=="0658", ATTRS{idProduct}=="0200", SYMLINK+="zwave"`
+> NOTE: I spent a considerable amount of time troubleshooting the udev file above and couldn't work out why it wasn't working. It ended up being a copy-and-paste error and the way the quotes were copied.
+4. Run `udevadm control --reload-rules && udevadm trigger` to reload the udev files (no need to restart the NAS.
+5. Create a schedule task when the NAS starts by creating the following file: `/usr/local/etc/rc.d/openhab-zwave-usbpermissions.sh`
+6. Add the following content;
+`#!/bin/sh
+chown -R openhab:openhab /dev/ttyACM0
+exit 0`
+
 ### Install the Z-Wave Integration
 
 Once Home Assistant has been setup, we need to install the Z-Wave integration.  Under *Configuration* -> *Integrations*, Install the **Z-Wave** Integration. 
@@ -112,7 +128,7 @@ In the Z-Wave Node Management page, select the node you want to rename and selec
 
 I like to give my Nodes the following naming pattern;
 
-`Name Override`: [Area] - [Location] - [Device Type]. For example; `Backyard - Side Pathway - Dual Nano Switch`
+`Name Override`: [Node ID] - [Area] - [Location] - [Device Type]. For example; `Node1 - Backyard - Side Pathway - Dual Nano Switch`
 `Entity ID`: [domain].[location] _ [devicetype]. For example; `zwave.backyard_sidepathway_dualnanoswitch`
 
 >**NOTE**: Note the lowercase and no spaces in the Entity ID. The domain is also fixed.
@@ -144,12 +160,28 @@ I like to give my Entites the following naming pattern;
 
 After a few attempts in trying to get the Z-Wave devices added, I ended up with a whole bunch of devices and entities hanging around in the database which caused clutter. These can be cleaned up by editing a few JSON files. The process I followed is;
 
-1. Open the `Home Assistant\configs\.storage\core.device_registry` file in a good file editor (like Sublime Text or Visual Studio code).
-2. Open the `Home Assistant\configs\.storage\core.entity_registry` file in a good file editor (like Sublime Text or Visual Studio code).
+1. Open the `Home Assistant\config\.storage\core.device_registry` file in a good file editor (like Sublime Text or Visual Studio code).
+2. Open the `Home Assistant\config\.storage\core.entity_registry` file in a good file editor (like Sublime Text or Visual Studio code).
 
 > **Note**: Files in the .storage directory. If you want to see hidden files in macOS press `Command + Shift + .` and the files will appear. Repeat this sequence to hide the hidden files.
 
 > **Note**: ALWAYS create a backup of these files before you edit them. One typo may invalidate the file.
+
+>**Note**: For some reason, sometimes I don't have access to edit these files. To workaround this issue, I granted full access to the file with the following (via a SSH session and elevated to sudo);
+
+> `chmod 777 core.device_registry`
+> `chmod 777 core.entity_registry`
+> 
+> Once you are done editing the file, revert the permissions and access back with the following;
+> 
+> `chmod 644 core.device_registry`
+> `chmod 644 core.entity_registry` 
+> `chown root core.device_registry`
+> `chown root core.entity_registry` 
+> `chgrp root core.device_registry`
+> `chgrp root core.entity_registry` 
+
+-rw-r--r--  1 root   root
 
 3. In the `core.device_registry` file, find the device you want to delete. An example is below;
 
@@ -189,5 +221,5 @@ I found this [great guide](https://aeotec.freshdesk.com/support/solutions/articl
 1. Change Parameter 32 (Startup ringtone) to 0
 2. Change Parameter 37 (Configure alarm mode for when the door is opening) to 167837952
 3. Change Parameter 38 (Configure the alarm mode when the garage door is closing) to 83951872
-4. Change Parameter 39 (Configure alarm mode when the garage door is in unknown state) to117506304
+4. Change Parameter 39 (Configure alarm mode when the garage door is in unknown state) to 117506304
 5. Change Parameter 40 (Configure the alarm mode when the garage door is in closed position) to 16843008
