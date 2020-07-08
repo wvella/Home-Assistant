@@ -49,7 +49,7 @@ For basic configuration (great starting point), refer to the following link.
 
 ## Post Installation
 
-### Mounting the Z-Wave USB Stick (with persistence)
+### Mounting the Z-Wave USB Stick (with a persistence mapping)
 
 By default, the Z-Wave USB stick will show up as either /dev/ttyACM0 or /dev/ttyACM1 and can change each time the NAS is restarted, or the USB stick is removed and plugged back in. To persist the USB stick to an 'alias' name, we can use `udev` as below;
 
